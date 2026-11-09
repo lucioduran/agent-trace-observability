@@ -70,11 +70,11 @@ class TelemetryTests(unittest.TestCase):
         self.assertEqual(row["events"], ["failure"])
 
     def test_numeric_cost_contract(self):
-        for value in (0.125, 0, -1, float("nan"), float("inf"), True, 1_000_001):
+        for value in (0.125, 0, -1, float("nan"), float("inf"), True, 1_000_001, 10**400):
             with self.telemetry.span("model") as span:
                 span.set_attribute("cost.usd", value)
         self.assertEqual(
-            [r["cost_usd"] for r in self.records()], [0.125, 0, None, None, None, None, None]
+            [r["cost_usd"] for r in self.records()], [0.125, 0, None, None, None, None, None, None]
         )
 
     def test_unknown_component_and_causes(self):
@@ -155,7 +155,12 @@ class TelemetryTests(unittest.TestCase):
             telemetry.close()
             self.emit(telemetry)
             self.assertEqual(exporter.dropped + exporter.written, 13)
-        for limits in ({"max_records": 0}, {"max_bytes": -1}):
+        for limits in (
+            {"max_records": 0},
+            {"max_bytes": -1},
+            {"max_records": True},
+            {"max_bytes": float("inf")},
+        ):
             with self.assertRaises(ValueError):
                 BoundedExporter(io.BytesIO(), **limits)
 

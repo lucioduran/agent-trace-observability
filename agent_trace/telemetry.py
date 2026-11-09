@@ -48,8 +48,8 @@ def project(span: ReadableSpan) -> dict[str, object]:
     valid_cost = (
         isinstance(cost, (int, float))
         and not isinstance(cost, bool)
-        and math.isfinite(cost)
         and 0 <= cost <= 1_000_000
+        and math.isfinite(cost)
     )
     return {
         "schema_version": 1,
@@ -73,8 +73,8 @@ class BoundedExporter(SpanExporter):
     """Synchronous sink with lifetime record/byte limits and no retry buffer."""
 
     def __init__(self, sink: BinaryIO, *, max_records: int = 10_000, max_bytes: int = 8_000_000):
-        if max_records < 1 or max_bytes < 1:
-            raise ValueError("Export limits must be positive")
+        if any(type(limit) is not int or limit < 1 for limit in (max_records, max_bytes)):
+            raise ValueError("Export limits must be positive integers")
         self.sink = sink
         self.max_records = max_records
         self.max_bytes = max_bytes
