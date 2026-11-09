@@ -108,7 +108,7 @@ python -m agent_trace verify --output results/local
 python -m build
 ```
 
-The 15 tests cover classification, retrieval, all fault modes, nested payload exclusion, attributes, events, exceptions, async cancellation, concurrent context isolation, thread handoff, W3C propagation, cost validation, byte/record bounds, short writes, write/flush failures, CLI errors and tampered evidence. Local branch-aware coverage is 99%, with a 90% floor. CI runs on Ubuntu 24.04, macOS 14 and Windows 2022 with Python 3.11.9 and pinned action commits.
+The 15 tests cover classification, retrieval, all fault modes, nested payload exclusion, attributes, events, exceptions, async cancellation, concurrent context isolation, thread handoff, W3C propagation, cost validation, byte/record bounds, short writes, write/flush failures, CLI errors and tampered evidence. Local branch-aware coverage is 99%, with a 90% floor. CI runs on Ubuntu 24.04, macOS 15 and Windows 2022 with Python 3.11.9 and pinned action commits.
 
 ## Limitations
 

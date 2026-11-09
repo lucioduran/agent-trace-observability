@@ -91,5 +91,5 @@ latencies, certify absence of arbitrary secrets, or validate external traces.
 - [GitHub Python setup and platform availability](https://github.com/actions/setup-python/blob/main/docs/advanced-usage.md)
 
 SDK and dependencies are pinned in `requirements-dev.txt`. CI pins action commits
-and uses Ubuntu 24.04, macOS 14 and Windows 2022 with Python 3.11.9, avoiding the
+and uses Ubuntu 24.04, macOS 15 and Windows 2022 with Python 3.11.9, avoiding the
 Ubuntu 26.04 `ubuntu-latest` migration. Local evidence uses Python 3.11.13.
