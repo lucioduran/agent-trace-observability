@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "runs": 400,
+  "concurrency": 4,
+  "outcomes": {
+    "retrieval": 100,
+    "model": 100,
+    "success": 100,
+    "tool": 100
+  },
+  "elapsed_seconds": 0.14566790999742807,
+  "latency_ms": {
+    "median": 1.387701498970273,
+    "max": 4.380211001262069
+  },
+  "exporter": {
+    "written": 1300,
+    "bytes_written": 463011,
+    "dropped": 0,
+    "failures": 0,
+    "failed": false
+  },
+  "trace_sha256": "060760b9d196dd12375aab0d8b7baf9c25c39e251fdc919f394030a0a3ef7a00",
+  "fixture_sha256": "45fdf1e38f7d1189a61148e3da921cc6af02903207b369ec74e61a69ea77876e",
+  "environment": {
+    "platform": "macOS-26.7.1-x86_64-i386-64bit",
+    "machine": "x86_64",
+    "processor": "i386",
+    "logical_cpus": 16,
+    "python": "3.11.13",
+    "opentelemetry_sdk": "1.39.1",
+    "thread_limit": "1"
+  },
+  "cost_usd": null,
+  "energy_joules": null,
+  "limitations": [
+    "Local naive Bayes classifier, not LLM inference",
+    "No baseline overhead comparison",
+    "Cost and energy not measured",
+    "Faults deliberately injected; timings measured locally"
+  ]
+}

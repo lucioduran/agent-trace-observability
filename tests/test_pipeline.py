@@ -86,3 +86,34 @@ class PipelineTests(unittest.TestCase):
                     self.assertEqual(main(), 0)
             with patch("sys.argv", ["agent_trace", "run", "--output", output]):
                 self.assertEqual(main(), 2)
+
+    def test_rehashed_structural_corruption(self):
+        import hashlib
+
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "run"
+            original_report = run(output, 4, 1)
+            original_rows = [
+                json.loads(line) for line in (output / "traces.jsonl").read_text().splitlines()
+            ]
+            roots = [i for i, row in enumerate(original_rows) if row["component"] == "pipeline"]
+            error_root = next(i for i in roots if original_rows[i]["status"] == "ERROR")
+            changes = [
+                (0, "span_id", original_rows[1]["span_id"]),
+                (0, "parent_span_id", "0" * 16),
+                (0, "component", "tool"),
+                (roots[0], "status", "ERROR"),
+                (error_root, "failure_cause", "internal"),
+                (0, "duration_ns", -1),
+                (0, "trace_id", "0" * 32),
+            ]
+            for index, key, value in changes:
+                rows = [dict(row) for row in original_rows]
+                rows[index][key] = value
+                data = "".join(json.dumps(row) + "\n" for row in rows).encode()
+                report = dict(original_report)
+                report["trace_sha256"] = hashlib.sha256(data).hexdigest()
+                (output / "traces.jsonl").write_bytes(data)
+                (output / "report.json").write_text(json.dumps(report))
+                with self.subTest(key=key), self.assertRaises(ValueError):
+                    verify(output)
