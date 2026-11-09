@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agent-trace-observability"
+version = "0.1.0"
+description = "Owned OpenTelemetry pipeline with bounded, allowlisted local exports"
+requires-python = ">=3.11"
+license = "MIT"
+readme = "README.md"
+dependencies = ["opentelemetry-sdk==1.39.1"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["agent_trace"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["agent_trace"]
+
+[tool.coverage.run]
+branch = true
+source = ["agent_trace"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 90
